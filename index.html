@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Pembayaran</title>
+</head>
+
+<body>
+
+<center>
+
+    <h2>Form Pembelian Barang</h2>
+
+    <fieldset style="width: 450px;">
+        <legend>Data Pembelian</legend>
+
+        <form action="pembayaran.php" method="POST" onsubmit="return cekData()">
+
+            <table>
+                <tr>
+                    <td>Nama Barang</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" id="nama_barang" name="nama_barang">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Harga Satuan</td>
+                    <td>:</td>
+                    <td>
+                        <input type="number" id="harga" name="harga"
+                        oninput="hitung()" min="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Jumlah</td>
+                    <td>:</td>
+                    <td>
+                        <input type="number" id="jumlah" name="jumlah"
+                        oninput="hitung()" min="1">
+                    </td>
+                </tr>
+            </table>
+
+            <br>
+
+            <fieldset>
+                <legend>Perhitungan</legend>
+
+                <table>
+                    <tr>
+                        <td>Total Harga</td>
+                        <td>:</td>
+                        <td id="total_harga">Rp 0</td>
+                    </tr>
+
+                    <tr>
+                        <td>Diskon</td>
+                        <td>:</td>
+                        <td id="diskon">0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>Total Bayar</td>
+                        <td>:</td>
+                        <td id="total_bayar">Rp 0</td>
+                    </tr>
+                </table>
+            </fieldset>
+
+            <br>
+
+            <button type="submit" name="hitung">Hitung</button>
+
+        </form>
+
+    </fieldset>
+
+</center>
+
+
+<script>
+
+function hitung() {
+
+    let harga = Number(document.getElementById("harga").value);
+    let jumlah = Number(document.getElementById("jumlah").value);
+
+    let total = harga * jumlah;
+    let diskon = 0;
+
+    if (total >= 500000) {
+        diskon = 20;
+    } else if (total >= 250000) {
+        diskon = 10;
+    }
+
+    let potongan = total * diskon / 100;
+    let bayar = total - potongan;
+
+    document.getElementById("total_harga").innerHTML =
+        "Rp " + total.toLocaleString("id-ID");
+
+    document.getElementById("diskon").innerHTML =
+        diskon + "%";
+
+    document.getElementById("total_bayar").innerHTML =
+        "Rp " + bayar.toLocaleString("id-ID");
+}
+
+
+function cekData() {
+
+    let nama = document.getElementById("nama_barang").value;
+    let harga = Number(document.getElementById("harga").value);
+    let jumlah = Number(document.getElementById("jumlah").value);
+
+    if (nama == "") {
+        alert("Nama barang harus diisi!");
+        return false;
+    }
+
+    if (harga < 0 || harga == "") {
+        alert("Harga tidak boleh negatif!");
+        return false;
+    }
+
+    if (jumlah < 1 || jumlah == "") {
+        alert("Jumlah pembelian minimal 1!");
+        return false;
+    }
+
+    return true;
+}
+
+</script>
+
+</body>
+</html>
